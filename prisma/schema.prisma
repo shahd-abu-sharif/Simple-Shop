@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  CUSTOMER
+  MERCHANT
+}
+
+enum OrderStatus {
+  PENDING
+  DELIVERED
+}
+
+enum TransactionType {
+  PAYMENT
+  REFUND
+}
+
+enum ReturnStatus {
+  PICKED_UP
+  REFUND
+  PENDING
+}
+
+model User {
+  id        BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  name      String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  role      UserRole
+  createdAt DateTime @default(now()) @map("created_at")
+
+  orders       Order[]
+  transactions UserTransaction[]
+  // products     Product[]         @relation("MerchantProducts")
+
+  @@index([name], map: "users_name_index")
+  @@map("users")
+}
+
+model Order {
+  id          BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  userId      BigInt      @map("user_id") @db.UnsignedBigInt
+  orderStatus OrderStatus @map("order_status")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  user          User              @relation(fields: [userId], references: [id])
+  oederProducts OrderProduct[]
+  transactions  UserTransaction[]
+  orderReturns  OrderReturn[]
+
+  @@map("orders")
+}
+
+model Product {
+  id          BigInt  @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  imageUrl    String? @map("image_url") @db.VarChar(512)
+  price       Decimal @db.Decimal(8, 2)
+  merchantId  BigInt
+
+  merchant User           @relation("MerchantProducts", fields: [merchantId], references: [id])
+  orders   OrderProduct[]
+  returned ReturnedItem[]
+
+  @@map("products")
+}
+
+//////////////////////////////////////
+// JOIN TABLES
+//////////////////////////////////////
+
+model OrderProduct {
+  orderId      BigInt
+  productId    BigInt
+  pricePerItem Decimal @db.Decimal(10, 2)
+  totalQty     Int
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@id([orderId, productId])
+  @@map("order_product")
+}
+
+//////////////////////////////////////
+// RETURNS
+//////////////////////////////////////
+
+model OrderReturn {
+  id        BigInt       @id @default(autoincrement())
+  orderId   BigInt       @unique
+  status    ReturnStatus
+  createdAt DateTime     @default(now())
+
+  order Order          @relation(fields: [orderId], references: [id])
+  items ReturnedItem[]
+
+  @@map("order_returns")
+}
+
+model ReturnedItem {
+  orderReturnId BigInt
+  productId     BigInt
+  qty           Int
+
+  orderReturn OrderReturn @relation(fields: [orderReturnId], references: [id])
+  product     Product     @relation(fields: [productId], references: [id])
+
+  @@id([orderReturnId, productId])
+  @@map("returned_items")
+}
+
+//////////////////////////////////////
+// TRANSACTIONS
+//////////////////////////////////////
+
+model UserTransaction {
+  id            BigInt          @id @default(autoincrement())
+  amount        Decimal         @db.Decimal(10, 2)
+  userId        BigInt
+  orderId       BigInt?
+  orderReturnId BigInt?
+  type          TransactionType
+  paymentMethod PaymentMethod
+  createdAt     DateTime        @default(now())
+
+  user        User         @relation(fields: [userId], references: [id])
+  order       Order?       @relation(fields: [orderId], references: [id])
+  orderReturn OrderReturn? @relation(fields: [orderReturnId], references: [id])
+
+  @@map("user_transactions")
+}
