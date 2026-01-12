@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://tse3.mm.bing.net/th/id/OIP.miGMXUjKnSWMFSKUih6b4gAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" width="120" alt="Simple Shop Logo" />
-</p>
+
 
 <p align="center">
   A scalable backend system for a <b>Simple Shop</b> built with <b>NestJS</b>, designed for learning, teamwork, and real-world backend architecture.
