@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -45,6 +45,7 @@ model User {
   orders       Order[]
   transactions UserTransaction[]
   // products     Product[]         @relation("MerchantProducts")
+  products     Product[]
 
   @@index([name], map: "users_name_index")
   @@map("users")
@@ -66,16 +67,16 @@ model Order {
 }
 
 model Product {
-  id          BigInt  @id @default(autoincrement())
+  id          BigInt  @id @default(autoincrement()) @db.UnsignedBigInt
   name        String  @db.VarChar(255)
   description String? @db.Text
-  imageUrl    String? @map("image_url") @db.VarChar(512)
+  imageUrl    String  @map("image_url") @db.VarChar(512)
   price       Decimal @db.Decimal(8, 2)
-  merchantId  BigInt
+  merchantId  BigInt  @db.UnsignedBigInt
 
-  merchant User           @relation("MerchantProducts", fields: [merchantId], references: [id])
-  orders   OrderProduct[]
-  returned ReturnedItem[]
+  merchant      User           @relation(fields: [merchantId], references: [id])
+  orderProducts OrderProduct[]
+  returned      ReturnedItem[]
 
   @@map("products")
 }
@@ -85,8 +86,8 @@ model Product {
 //////////////////////////////////////
 
 model OrderProduct {
-  orderId      BigInt
-  productId    BigInt
+  orderId      BigInt  @db.UnsignedBigInt
+  productId    BigInt  @db.UnsignedBigInt
   pricePerItem Decimal @db.Decimal(10, 2)
   totalQty     Int
 
@@ -102,21 +103,22 @@ model OrderProduct {
 //////////////////////////////////////
 
 model OrderReturn {
-  id        BigInt       @id @default(autoincrement())
-  orderId   BigInt       @unique
+  id        BigInt       @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId   BigInt       @db.UnsignedBigInt
   status    ReturnStatus
   createdAt DateTime     @default(now())
 
-  order Order          @relation(fields: [orderId], references: [id])
-  items ReturnedItem[]
+  order            Order             @relation(fields: [orderId], references: [id])
+  items            ReturnedItem[]
+  userTransactions UserTransaction[]
 
   @@map("order_returns")
 }
 
 model ReturnedItem {
-  orderReturnId BigInt
-  productId     BigInt
-  qty           Int
+  orderReturnId BigInt @map("order_return_id") @db.UnsignedBigInt
+  productId     BigInt @map("product_id") @db.UnsignedBigInt
+  qty           Int    @db.UnsignedInt
 
   orderReturn OrderReturn @relation(fields: [orderReturnId], references: [id])
   product     Product     @relation(fields: [productId], references: [id])
@@ -130,17 +132,17 @@ model ReturnedItem {
 //////////////////////////////////////
 
 model UserTransaction {
-  id            BigInt          @id @default(autoincrement())
-  amount        Decimal         @db.Decimal(10, 2)
-  userId        BigInt
-  orderId       BigInt?
-  orderReturnId BigInt?
+  id            BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  amount        Decimal         @db.Decimal(8, 2)
+  userId        BigInt          @map("user_id") @db.UnsignedBigInt
+  orderId       BigInt          @map("order_id") @db.UnsignedBigInt
+  orderReturnId BigInt?         @map("order_return_id") @db.UnsignedBigInt
   type          TransactionType
-  paymentMethod PaymentMethod
-  createdAt     DateTime        @default(now())
+  // paymentMethod PaymentMethod
+  createdAt     DateTime        @default(now()) @map("created_at")
 
   user        User         @relation(fields: [userId], references: [id])
-  order       Order?       @relation(fields: [orderId], references: [id])
+  order       Order        @relation(fields: [orderId], references: [id])
   orderReturn OrderReturn? @relation(fields: [orderReturnId], references: [id])
 
   @@map("user_transactions")
