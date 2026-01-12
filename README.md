@@ -1,98 +1,202 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://raw.githubusercontent.com/nestjs/nest/master/assets/logo-small.svg" width="120" alt="Simple Shop Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  A scalable backend system for a <b>Simple Shop</b> built with <b>NestJS</b>, designed for learning, teamwork, and real-world backend architecture.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📌 Project Overview
 
-## Project setup
+**Simple Shop** is a backend application that simulates a real-world e-commerce system.  
+It is built using **NestJS**, **TypeScript**, and **Prisma**, and is designed to be consumed by **frontend, mobile, and QA teams**.
+
+The project focuses on:
+- Clean backend architecture
+- Clear API contracts (Swagger)
+- Proper authentication & authorization
+- Realistic database relationships
+- Team-based development workflow
+
+This project is educational, but structured like a production system.
+
+---
+
+## 🏗️ System Description
+
+The Simple Shop system allows users to:
+
+- Register and authenticate securely
+- Browse products and categories
+- Place orders
+- Track order status
+- Manage users, roles, and permissions
+- Support future extensions like delivery, payments, and admin dashboards
+
+The backend **never trusts the frontend**.  
+All validation, authorization, and business logic live on the server.
+
+---
+
+## 👥 User Roles
+
+The system is designed around multiple roles:
+
+- **Customer**
+  - Browse products
+  - Place orders
+  - View order history
+
+- **Admin**
+  - Manage users
+  - Manage products and categories
+  - View all orders
+
+- **(Future) Delivery / Vendor**
+  - Handle delivery logic
+  - Manage order fulfillment
+
+Roles are enforced using guards and decorators.
+
+---
+
+## 🧠 Architecture
+
+The project follows **modular architecture**:
+
+- Each feature is isolated in its own module
+- Controllers handle HTTP requests
+- Services contain business logic
+- DTOs define data contracts
+- Prisma handles database access
+
+Example modules:
+- `AuthModule`
+- `UsersModule`
+- `ProductsModule`
+- `OrdersModule`
+
+---
+
+## 🗄️ Database
+
+- Database is managed using **Prisma ORM**
+- Relations are explicitly defined (users → orders → products)
+- Migrations are versioned and tracked
+- Passwords are **never returned** in responses
+
+---
+
+## 🔐 Authentication & Security
+
+- Authentication uses **JWT**
+- Passwords are hashed
+- Sensitive fields are excluded from API responses
+- Role-based access control (RBAC) is enforced
+
+---
+
+## 📑 API Documentation (Swagger)
+
+Swagger is enabled to allow:
+- Frontend & mobile teams to test APIs
+- QA to validate endpoints
+- Clear visibility of request/response shapes
+
+Swagger acts as the **contract** between backend and other teams.
+
+---
+
+## 🚀 Project Setup
 
 ```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
+npm install
+▶️ Running the Project
+bash
+Copy code
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
+# production
+npm run start:prod
+🧪 Testing
+bash
+Copy code
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
-# test coverage
-$ npm run test:cov
-```
+# coverage
+npm run test:cov
+🔄 Development Workflow
+Feature-based branching
 
-## Deployment
+Clear commits
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Database migrations tracked
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Swagger updated with every API change
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Backend development starts before frontend to unblock other teams.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+📦 Tech Stack
+NestJS – Backend framework
 
-## Resources
+TypeScript – Type safety
 
-Check out a few resources that may come in handy when working with NestJS:
+Prisma – Database ORM
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+MySQL – Database
 
-## Support
+JWT – Authentication
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Swagger – API documentation
 
-## Stay in touch
+Docker (optional) – Containerization
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+🎯 Project Goals
+Learn real backend architecture
 
-## License
+Practice team collaboration
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Build scalable APIs
+
+Understand production-level thinking
+
+Prepare for real-world projects
+
+This is not just a CRUD app — it’s a backend system.
+
+📄 License
+This project is for educational purposes and follows the MIT license.
+
+markdown
+Copy code
+
+---
+
+### Why this README works
+- Explains **what the system is**, not just how to run it  
+- Clear for **frontend, QA, and supervisors**
+- Sounds professional but not corporate
+- Matches real backend expectations
+
+If you want, next logical upgrades are:
+- Adding an **ER diagram section**
+- Adding **API examples**
+- Adding a **folder structure explanation**
+- Writing a **Swagger usage guide for frontend students**
+
+The README is now a *map*, not decoration.
+
+
+
+
+
