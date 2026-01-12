@@ -145,8 +145,9 @@ Database migrations tracked
 Swagger updated with every API change
 
 Backend development starts before frontend to unblock other teams.
-
-📦 Tech Stack
+```
+## 📦 Tech Stack
+```bash
 NestJS – Backend framework
 
 TypeScript – Type safety
@@ -160,8 +161,9 @@ JWT – Authentication
 Swagger – API documentation
 
 Docker (optional) – Containerization
+```
 
-🎯 Project Goals
+## 🎯 Project Goals
 Learn real backend architecture
 
 Practice team collaboration
@@ -171,32 +173,4 @@ Build scalable APIs
 Understand production-level thinking
 
 Prepare for real-world projects
-
-This is not just a CRUD app — it’s a backend system.
-
-📄 License
-This project is for educational purposes and follows the MIT license.
-
-markdown
-Copy code
-
----
-
-### Why this README works
-- Explains **what the system is**, not just how to run it  
-- Clear for **frontend, QA, and supervisors**
-- Sounds professional but not corporate
-- Matches real backend expectations
-
-If you want, next logical upgrades are:
-- Adding an **ER diagram section**
-- Adding **API examples**
-- Adding a **folder structure explanation**
-- Writing a **Swagger usage guide for frontend students**
-
-The README is now a *map*, not decoration.
-
-
-
-
 
