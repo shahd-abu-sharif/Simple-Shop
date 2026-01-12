@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nestjs/nest/master/assets/logo-small.svg" width="120" alt="Simple Shop Logo" />
+  <img src="https://tse3.mm.bing.net/th/id/OIP.miGMXUjKnSWMFSKUih6b4gAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" width="120" alt="Simple Shop Logo" />
 </p>
 
 <p align="center">
