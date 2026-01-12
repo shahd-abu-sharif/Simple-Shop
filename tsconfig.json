@@ -3,6 +3,11 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "lib" : ["ESNext"] ,
+        "types": [
+          "node",
+          "jest"
+        ],
+    "verbatimModuleSyntax": false,
     "resolvePackageJsonExports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
